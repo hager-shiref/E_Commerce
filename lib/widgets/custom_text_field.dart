@@ -3,6 +3,7 @@ import 'package:e_commerce/constant.dart';
 class CustomTextField extends StatelessWidget {
   final String hint;
   final IconData icon;
+  final Function onClick;
   String _errorMessage(String hint){
       switch(hint){
         case 'Enter your Name': return 'Name is Empty';
@@ -10,7 +11,7 @@ class CustomTextField extends StatelessWidget {
         case 'Enter your Password':return'Password is Empty';
       }
   }
-  CustomTextField({@required this.hint,@required this.icon});
+  CustomTextField({@required this.hint,@required this.icon,@required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +21,8 @@ class CustomTextField extends StatelessWidget {
         validator: (value){
           if(value.isEmpty){return _errorMessage(hint);}
         },
+        onSaved:onClick ,
+        obscureText: hint== 'Enter your Password'? true:false,
         cursorColor: kMainColor,
         decoration: InputDecoration(
           hintText: hint,
