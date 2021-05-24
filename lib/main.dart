@@ -1,4 +1,6 @@
+import 'package:e_commerce/provider/adminMode.dart';
 import 'package:e_commerce/provider/modelHub.dart';
+import 'package:e_commerce/screens/admin_home.dart';
 import 'package:e_commerce/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,16 +16,22 @@ void main()async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ModelHub>(
-      create: (context)=>ModelHub(),
+    return  MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ModelHub>(
+      create: (context)=>ModelHub(),),
+      ChangeNotifierProvider<AdminMode>(create: (context)=>AdminMode(),)
+      ],
           child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: LoginScreen.id,
-        routes: {
-          LoginScreen.id:(context)=>LoginScreen(),
-          SignUpScreen.id:(context)=>SignUpScreen(),
-          HomePage.id:(context)=>HomePage()
-        },
+          debugShowCheckedModeBanner: false,
+          initialRoute: LoginScreen.id,
+          routes: {
+            LoginScreen.id:(context)=>LoginScreen(),
+            SignUpScreen.id:(context)=>SignUpScreen(),
+            HomePage.id:(context)=>HomePage(),
+            AdminHome.id:(context)=>AdminHome()
+          },
+
       ),
     );
   }

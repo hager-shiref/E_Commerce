@@ -1,3 +1,5 @@
+import 'package:e_commerce/provider/adminMode.dart';
+import 'package:e_commerce/provider/modelHub.dart';
 import 'package:e_commerce/screens/home_page.dart';
 import 'package:e_commerce/screens/signUp_screen.dart';
 import 'package:e_commerce/widgets/custom_stack.dart';
@@ -5,10 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:e_commerce/constant.dart';
 import 'package:e_commerce/widgets/custom_text_field.dart';
 import 'package:e_commerce/services/auth.dart';
+import 'package:provider/provider.dart';
+
+import 'admin_home.dart';
 class LoginScreen extends StatelessWidget {
   static String id='LoginScreen';
   String _email,_password;
   final _auth=Auth();
+  bool isAdmin=false;
+  final adminPassword='admin123456789';
    final GlobalKey<FormState>_globalKey=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -42,22 +49,11 @@ class LoginScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 120),
                 child: InkWell(
-                  onTap: ()async
+                  onTap: ()
                   {
-                    if(_globalKey.currentState.validate())
-                    {
-                     try{
-                       _globalKey.currentState.save();
-                      final result= await _auth.signIn(_email, _password);
-                      Navigator.pushNamed(context, HomePage.id);
-                     }
-                     catch(e){
-                       ScaffoldMessenger.of(context).showSnackBar(
-                         SnackBar(content: Text(e.message))
-                       );
-                     }
-                    }
+                    _validate(context);
                   },
+
                   child: Container(
                     height: height/20,
                  decoration: BoxDecoration( color: Colors.black,
@@ -85,6 +81,31 @@ class LoginScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 16),),
                   )
                 ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+                child: Row(
+                  children: [
+                    Expanded(child: GestureDetector(
+                      onTap: ()
+                      {
+                        Provider.of<AdminMode>(context).changeIsAdmin(true);
+                      },
+                      child: Text('I\'m an admin',textAlign: TextAlign.center,style: TextStyle(
+                        color:Provider.of<AdminMode>(context,listen: false).isAdmin? kMainColor:Colors.white
+                      ),),
+                    )),
+                    Expanded(child: GestureDetector(
+                      onTap: ()
+                      {
+                        Provider.of<AdminMode>(context,listen: false).changeIsAdmin(false);
+                      },
+                      child: Text('I\'m a user',textAlign: TextAlign.center,style: TextStyle(
+                        color:Provider.of<AdminMode>(context).isAdmin? Colors.white:kMainColor
+                      )),
+                    ))
+                  ],
+                ),
               )
             
             ],
@@ -92,5 +113,55 @@ class LoginScreen extends StatelessWidget {
         ),
     );
   }
-}
 
+void _validate(BuildContext context)async
+  {
+    final modelHud=Provider.of<ModelHub>(context,listen: false);
+    modelHud.changeIsLoading(true);
+      if(_globalKey.currentState.validate())
+      {
+          _globalKey.currentState.save();
+          if(Provider.of<AdminMode>(context,listen: false).isAdmin)
+          {
+              if(_password==adminPassword)
+              {
+            try
+            {
+              
+            _auth.signIn(_email, _password);
+            Navigator.pushNamed(context, AdminHome.id);
+          }
+          catch(e)
+          {
+            modelHud.changeIsLoading(false);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(e.message))
+            );
+          }
+              }
+              else
+              {
+               modelHud.changeIsLoading(false);
+                ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Something went wrong '))
+            );
+              }
+          }
+          else
+          {
+            try
+            {
+           await _auth.signIn(_email, _password);
+            Navigator.pushNamed(context, HomePage.id);
+          }
+          catch(e)
+          {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(e.message))
+            );
+          }
+          }
+      }
+      modelHud.changeIsLoading(false);
+  }
+}
