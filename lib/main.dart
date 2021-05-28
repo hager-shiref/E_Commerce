@@ -1,12 +1,13 @@
 import 'package:e_commerce/provider/adminMode.dart';
 import 'package:e_commerce/provider/modelHub.dart';
-import 'package:e_commerce/screens/admin_home.dart';
+import 'package:e_commerce/admin/admin_home.dart';
 import 'package:e_commerce/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/signUp_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screens/home_page.dart';
+import 'admin/adminProduct.dart';
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
             LoginScreen.id:(context)=>LoginScreen(),
             SignUpScreen.id:(context)=>SignUpScreen(),
             HomePage.id:(context)=>HomePage(),
-            AdminHome.id:(context)=>AdminHome()
+            AdminHome.id:(context)=>AdminHome(),
+            AddProduct.id:(context)=>AddProduct()
           },
 
       ),

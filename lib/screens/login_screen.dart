@@ -8,8 +8,7 @@ import 'package:e_commerce/constant.dart';
 import 'package:e_commerce/widgets/custom_text_field.dart';
 import 'package:e_commerce/services/auth.dart';
 import 'package:provider/provider.dart';
-
-import 'admin_home.dart';
+import 'package:e_commerce/admin/admin_home.dart';
 class LoginScreen extends StatelessWidget {
   static String id='LoginScreen';
   String _email,_password;
@@ -89,7 +88,7 @@ class LoginScreen extends StatelessWidget {
                     Expanded(child: GestureDetector(
                       onTap: ()
                       {
-                        Provider.of<AdminMode>(context).changeIsAdmin(true);
+                        Provider.of<AdminMode>(context,listen: false).changeIsAdmin(true);
                       },
                       child: Text('I\'m an admin',textAlign: TextAlign.center,style: TextStyle(
                         color:Provider.of<AdminMode>(context,listen: false).isAdmin? kMainColor:Colors.white
