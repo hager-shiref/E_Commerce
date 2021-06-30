@@ -1,3 +1,4 @@
+import 'package:e_commerce/admin/edit_product.dart';
 import 'package:e_commerce/provider/adminMode.dart';
 import 'package:e_commerce/provider/modelHub.dart';
 import 'package:e_commerce/admin/admin_home.dart';
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
             SignUpScreen.id:(context)=>SignUpScreen(),
             HomePage.id:(context)=>HomePage(),
             AdminHome.id:(context)=>AdminHome(),
-            AddProduct.id:(context)=>AddProduct()
+            AddProduct.id:(context)=>AddProduct(),
+            EditProduct.id:(context)=>EditProduct()
           },
 
       ),
