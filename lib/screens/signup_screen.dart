@@ -5,10 +5,8 @@ import 'package:e_commerce/constant.dart';
 import 'package:e_commerce/widgets/custom_text_field.dart';
 import 'package:e_commerce/widgets/custom_stack.dart';
 import 'package:e_commerce/services/auth.dart';
-import 'package:flutter/services.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
-import 'package:e_commerce/provider/modelHub.dart';
 class SignUpScreen extends StatelessWidget {
   final GlobalKey<FormState>_globalKey=GlobalKey<FormState>();
   static String id='SignUpScreen';

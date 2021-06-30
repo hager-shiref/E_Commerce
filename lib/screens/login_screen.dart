@@ -37,7 +37,7 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: height*0.05,
               ),
-              CustomTextField(hint: 'Enter your password', icon: Icons.lock,
+              CustomTextField(hint: 'Enter your Password', icon: Icons.lock,
               onClick: (value)
               {
                   _password=value;

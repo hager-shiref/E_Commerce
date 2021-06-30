@@ -1,6 +1,8 @@
 import 'package:e_commerce/admin/adminProduct.dart';
 import 'package:e_commerce/constant.dart';
 import 'package:flutter/material.dart';
+
+import 'edit_product.dart';
 class AdminHome extends StatelessWidget {
   static String id='AdminHome';
   @override
@@ -25,14 +27,20 @@ class AdminHome extends StatelessWidget {
            ),
           ),
           ElevatedButton(
-            onPressed: (){},
+            onPressed: ()
+            {
+                Navigator.pushNamed(context, EditProduct.id);
+            },
             child: Text('Edit Product',style: TextStyle(color: Colors.black),),
             style: ElevatedButton.styleFrom(
               primary: Colors.white, 
            ),
           ),
           ElevatedButton(
-            onPressed: (){},
+            onPressed: ()
+            {
+              
+            },
             child: Text('View Orders',style: TextStyle(color: Colors.black),),
             style: ElevatedButton.styleFrom(
               primary: Colors.white, 

@@ -11,7 +11,7 @@ class CustomTextField extends StatelessWidget {
         case 'Enter your Password':return'Password is Empty';
       }
   }
-  CustomTextField({@required this.hint,@required this.icon,@required this.onClick});
+  CustomTextField({@required this.hint, this.icon,@required this.onClick});
 
   @override
   Widget build(BuildContext context) {

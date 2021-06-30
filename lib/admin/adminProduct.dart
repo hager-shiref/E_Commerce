@@ -64,7 +64,7 @@ class AddProduct extends StatelessWidget {
                       pCatergory: _category,
                       pLocation: _imageLocation,
                       pPrice: _price,
-                      PDescription: _description
+                      pDescription: _description
                     ));
                 }
               },
