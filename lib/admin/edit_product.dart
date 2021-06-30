@@ -1,3 +1,4 @@
+import 'package:e_commerce/constant.dart';
 import 'package:e_commerce/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce/services/store.dart';
@@ -10,17 +11,29 @@ static String id='EditProduct';
 
 class _EditProductState extends State<EditProduct> {
   final _store=Store();
-  List<Product>_products=[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<List<Product>>(
-          future: _store.loadProduct(),
+      body: StreamBuilder(
+          stream: _store.loadProduct(),
         builder:(context,snapshot){ 
          if(snapshot.hasData){
+             List<Product>products=[];
+           for(var doc in snapshot.data.docs){
+             var data =doc.data();
+             products.add(
+               Product(
+                 pCatergory: data[kProductCategory],
+                 pDescription: data[kProductDescription],
+                 pLocation: data[kProductLocation],
+                 pName: data[kProductName],
+                 pPrice: data[kProductPrice]
+               )
+             );
+           }
             return ListView.builder(
-          itemBuilder: (context,index)=>Text(snapshot.data[index].pName),
-        itemCount:snapshot.data.length,
+          itemBuilder: (context,index)=>Text(products[index].pName),
+        itemCount:products.length,
         );
          }
         else{
@@ -30,11 +43,6 @@ class _EditProductState extends State<EditProduct> {
       ),
     );
   }
-  @override
-  void initState(){
-    getProducts();
-  }
-  void getProducts()async{
-    _products=await _store.loadProduct();
-  }
+   
+  
 }

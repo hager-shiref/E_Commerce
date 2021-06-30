@@ -17,23 +17,7 @@ class Store
         }
       );
   }
-  Future<List<Product>>loadProduct()async
+  Stream <QuerySnapshot>loadProduct()
   {
-   var snapshot=await _firestore.collection(kProductsCollection).get();
-    List <Product> products=[];
-   for(var doc in snapshot.docs)
-   {
-     var data=doc.data();
-     products.add(
-       Product(
-         pPrice: data[kProductPrice],
-         pCatergory: data[kProductCategory],
-         pDescription: kProductDescription,
-         pLocation: data[kProductLocation],
-         pName: data[kProductName]
-       )
-     );
-   }
-   return products;
-  }
-}
+   return _firestore.collection(kProductsCollection).snapshots();//snapshots to update the data 
+}}
