@@ -1,129 +1,100 @@
 import 'package:e_commerce/constant.dart';
 import 'package:e_commerce/models/product.dart';
-import 'package:flutter/material.dart';
 import 'package:e_commerce/services/store.dart';
-class EditProduct extends StatefulWidget {
-static String id='EditProduct';
+import 'package:e_commerce/widgets/custom_text_field.dart';
+import 'package:flutter/material.dart';
 
-  @override
-  _EditProductState createState() => _EditProductState();
-}
+class EditProduct extends StatelessWidget {
+  static String id = 'EditProduct';
+  String _name, _price, _description, _category, _imageLocation;
+  final _store = Store();
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
-class _EditProductState extends State<EditProduct> {
-  final _store=Store();
   @override
   Widget build(BuildContext context) {
+    //pass data from manageProduct class to edit with navigation arguments
+    Product product =ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      body: StreamBuilder(
-          stream: _store.loadProduct(),
-        builder:(context,snapshot){ 
-         if(snapshot.hasData){
-             List<Product>products=[];
-           for(var doc in snapshot.data.docs){
-             var data =doc.data();
-             products.add(
-               Product(
-                 pCatergory: data[kProductCategory],
-                 pDescription: data[kProductDescription],
-                 pLocation: data[kProductLocation],
-                 pName: data[kProductName],
-                 pPrice: data[kProductPrice]
-               )
-             );
-           }
-            return GridView.builder(
-              gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.8) ,
-               itemBuilder: (context,index)=>Padding(
-                 padding: const EdgeInsets.symmetric(
-                   horizontal: 10,vertical: 10
-                 ),
-                 child: GestureDetector(
-                   onTapUp: (details){
-                      double dx =details.globalPosition.dx;
-                      double dy=details.globalPosition.dy;
-                      double dx2=MediaQuery.of(context).size.width-dx;
-                      double dy2=MediaQuery.of(context).size.height-dy;
-                     showMenu(context: context, position: RelativeRect.fromLTRB(dx, dy, dx2, dy2), 
-                     items: [
-                      MyPopupMenuItem(
-                        child: Text('Edit'),
-                        onClick: (){
-                          print('Clicked');
-                        },
-                        ),
-                        MyPopupMenuItem(
-                            child: Text('Delete'),
-                            onClick: (){
-                              print('Delete');
-                            })
-                     ]);
-                   },
-                   child: Stack(
-                     children: [
-                       Positioned.fill(
-                         child:Image(
-                           fit: BoxFit.fill,
-                           image: AssetImage(products[index].pLocation),
-                         ) 
-                       ),
-                       Positioned(
-                         bottom: 0,
-                         width: MediaQuery.of(context).size.width,
-                         child:Opacity(
-                           opacity: 0.6,
-                           child: Container(
-                             height: 60,
-                             color: Colors.white,
-                             child: Padding(
-                               padding: EdgeInsets.symmetric(
-                                 horizontal: 10,vertical: 5
-                               ),
-                               child: Column(
-                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                 children: [
-                                   Text(products[index].pName,style: TextStyle(fontWeight: FontWeight.bold),),
-                                   Text('\$ ${products[index].pPrice}')
-                                 ],
-                               ),
-                             ),
-                           ),
-                         ),
-                       )
-                     ],
-                   ),
-                 ),
-               ),
-               itemCount: products.length,
-               );
-         }
-        else{
-          return Center(child: CircularProgressIndicator(backgroundColor: kMainColor,));
-        }
-        }
+      body: Form(
+        key: _globalKey,
+        child:ListView(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height*0.2,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomTextField(
+                  hint: 'Product Name',
+                  onClick: (value) {
+                    _name = value;
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CustomTextField(
+                  hint: 'Product Price',
+                  onClick: (value) {
+                    _price = value;
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CustomTextField(
+                  hint: "Product Description",
+                  onClick: (value) {
+                    _description = value;
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CustomTextField(
+                  hint: "Product Category",
+                  onClick: (value) {
+                    _category = value;
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CustomTextField(
+                  hint: 'Product Location',
+                  onClick: (value) {
+                    _imageLocation = value;
+                  },
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_globalKey.currentState.validate()) {
+                      _globalKey.currentState.save();
+                      _store.editProduct(({
+                        kProductName: _name,
+                        kProductCategory:_category,
+                        kProductDescription:_description,
+                        kProductPrice:_price,
+                        kProductLocation:_imageLocation
+                      } ),
+                          product.pId
+                      );
+                    }
+                  },
+                  child: Text(
+                    'Add Product',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        )
       ),
     );
-  }
-}
-
-class MyPopupMenuItem<T> extends PopupMenuItem<T>{
-final Widget child;
-final Function  onClick;
-MyPopupMenuItem({@required this.child,@required this.onClick}):super(child: child);
-  @override
-  PopupMenuItemState<T,PopupMenuItem<T>> createState (){
-    return MyPopupMenuItemState();
-  }
-  }
-
-class MyPopupMenuItemState<T,PopMenuItem>
-  extends PopupMenuItemState<T,MyPopupMenuItem<T>>
-{
-
-  @override
-  void handleTap(){
-    widget.onClick();
-    Navigator.pop(context);
   }
 }

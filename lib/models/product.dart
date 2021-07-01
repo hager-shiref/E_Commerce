@@ -5,6 +5,7 @@ class Product
   String pLocation;
   String pDescription;
   String pCatergory;
-  Product({this.pDescription,this.pCatergory,this.pLocation,this.pName,this.pPrice});
+  String pId;
+  Product({this.pDescription,this.pCatergory,this.pLocation,this.pName,this.pPrice,this.pId});
   
 }
