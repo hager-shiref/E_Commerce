@@ -68,7 +68,7 @@ class SignUpScreen extends StatelessWidget {
                       if (_globalKey.currentState.validate()) {
                         try {
                           _globalKey.currentState.save();
-                          final result = await _auth.signUp(_email, _password);
+                          final result = await _auth.signUp(_email.trim(), _password.trim());
                           modelHub.changeIsLoading(false);
                           Navigator.pushNamed(context, HomePage.id);
                         } catch (e) {

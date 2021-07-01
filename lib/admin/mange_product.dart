@@ -25,7 +25,7 @@ class _ManageProductState extends State<ManageProduct> {
               for (var doc in snapshot.data.docs) {
                 var data = doc.data();
                 products.add(Product(
-                    pId: doc.documentID,
+                    pId: doc.id,
                     pCatergory: data[kProductCategory],
                     pDescription: data[kProductDescription],
                     pLocation: data[kProductLocation],
