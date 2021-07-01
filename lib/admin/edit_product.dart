@@ -47,12 +47,17 @@ class _EditProductState extends State<EditProduct> {
                       double dy2=MediaQuery.of(context).size.height-dy;
                      showMenu(context: context, position: RelativeRect.fromLTRB(dx, dy, dx2, dy2), 
                      items: [
-                      PopupMenuItem(
-                        child: Text('Edit')
+                      MyPopupMenuItem(
+                        child: Text('Edit'),
+                        onClick: (){
+                          print('Clicked');
+                        },
                         ),
-                        PopupMenuItem(
-                          child:Text('Delete') 
-                          )
+                        MyPopupMenuItem(
+                            child: Text('Delete'),
+                            onClick: (){
+                              print('Delete');
+                            })
                      ]);
                    },
                    child: Stack(
@@ -94,12 +99,31 @@ class _EditProductState extends State<EditProduct> {
                );
          }
         else{
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(backgroundColor: kMainColor,));
         }
         }
       ),
     );
   }
-   
-  
+}
+
+class MyPopupMenuItem<T> extends PopupMenuItem<T>{
+final Widget child;
+final Function  onClick;
+MyPopupMenuItem({@required this.child,@required this.onClick}):super(child: child);
+  @override
+  PopupMenuItemState<T,PopupMenuItem<T>> createState (){
+    return MyPopupMenuItemState();
+  }
+  }
+
+class MyPopupMenuItemState<T,PopMenuItem>
+  extends PopupMenuItemState<T,MyPopupMenuItem<T>>
+{
+
+  @override
+  void handleTap(){
+    widget.onClick();
+    Navigator.pop(context);
+  }
 }
