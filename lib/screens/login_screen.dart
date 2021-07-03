@@ -1,6 +1,7 @@
 import 'package:e_commerce/provider/adminMode.dart';
 import 'package:e_commerce/provider/modelHub.dart';
-import 'package:e_commerce/screens/home_page.dart';
+import 'admin/admin_home.dart';
+import 'file:///E:/Flutter/e_commerce/lib/screens/user/home_page.dart';
 import 'package:e_commerce/screens/signUp_screen.dart';
 import 'package:e_commerce/widgets/custom_stack.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,6 @@ import 'package:e_commerce/constant.dart';
 import 'package:e_commerce/widgets/custom_text_field.dart';
 import 'package:e_commerce/services/auth.dart';
 import 'package:provider/provider.dart';
-import 'package:e_commerce/admin/admin_home.dart';
 
 class LoginScreen extends StatelessWidget {
   static String id = 'LoginScreen';
@@ -96,11 +96,11 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   Expanded(
                       child: GestureDetector(
-                    onTap: () {
+                        onTap: () {
                       Provider.of<AdminMode>(context, listen: false)
                           .changeIsAdmin(true);
                     },
-                    child: Text(
+                      child: Text(
                       'I\'m an admin',
                       textAlign: TextAlign.center,
                       style: TextStyle(

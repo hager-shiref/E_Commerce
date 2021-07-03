@@ -1,15 +1,16 @@
-import 'package:e_commerce/admin/edit_product.dart';
-import 'package:e_commerce/admin/mange_product.dart';
 import 'package:e_commerce/provider/adminMode.dart';
 import 'package:e_commerce/provider/modelHub.dart';
-import 'package:e_commerce/admin/admin_home.dart';
+import 'package:e_commerce/screens/admin/adminProduct.dart';
+import 'package:e_commerce/screens/admin/admin_home.dart';
+import 'package:e_commerce/screens/admin/edit_product.dart';
+import 'package:e_commerce/screens/admin/mange_product.dart';
 import 'package:e_commerce/screens/login_screen.dart';
+import 'package:e_commerce/screens/user/product_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/signUp_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'screens/home_page.dart';
-import 'admin/adminProduct.dart';
+import 'screens/user/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +40,8 @@ class MyApp extends StatelessWidget {
           AdminHome.id: (context) => AdminHome(),
           AddProduct.id: (context) => AddProduct(),
           ManageProduct.id: (context) => ManageProduct(),
-          EditProduct.id: (context) => EditProduct()
+          EditProduct.id: (context) => EditProduct(),
+          ProductInfo.id:(context)=>ProductInfo()
         },
       ),
     );

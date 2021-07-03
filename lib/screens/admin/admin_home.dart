@@ -1,7 +1,7 @@
-import 'package:e_commerce/admin/adminProduct.dart';
 import 'package:e_commerce/constant.dart';
 import 'package:flutter/material.dart';
 
+import 'adminProduct.dart';
 import 'mange_product.dart';
 
 class AdminHome extends StatelessWidget {
