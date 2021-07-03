@@ -96,11 +96,11 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   Expanded(
                       child: GestureDetector(
-                        onTap: () {
+                    onTap: () {
                       Provider.of<AdminMode>(context, listen: false)
                           .changeIsAdmin(true);
                     },
-                      child: Text(
+                    child: Text(
                       'I\'m an admin',
                       textAlign: TextAlign.center,
                       style: TextStyle(

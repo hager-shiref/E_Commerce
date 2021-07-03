@@ -1,10 +1,12 @@
 import 'package:e_commerce/provider/adminMode.dart';
+import 'package:e_commerce/provider/cart_item.dart';
 import 'package:e_commerce/provider/modelHub.dart';
 import 'package:e_commerce/screens/admin/adminProduct.dart';
 import 'package:e_commerce/screens/admin/admin_home.dart';
 import 'package:e_commerce/screens/admin/edit_product.dart';
 import 'package:e_commerce/screens/admin/mange_product.dart';
 import 'package:e_commerce/screens/login_screen.dart';
+import 'package:e_commerce/screens/user/cart_screen.dart';
 import 'package:e_commerce/screens/user/product_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +30,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<AdminMode>(
           create: (context) => AdminMode(),
+        ),
+        ChangeNotifierProvider<CartItem>(
+          create: (context) => CartItem(),
         )
       ],
       child: MaterialApp(
@@ -41,7 +46,8 @@ class MyApp extends StatelessWidget {
           AddProduct.id: (context) => AddProduct(),
           ManageProduct.id: (context) => ManageProduct(),
           EditProduct.id: (context) => EditProduct(),
-          ProductInfo.id:(context)=>ProductInfo()
+          ProductInfo.id: (context) => ProductInfo(),
+          CartScreen.id: (context) => CartScreen()
         },
       ),
     );

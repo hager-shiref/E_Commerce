@@ -1,5 +1,6 @@
 import 'package:e_commerce/constant.dart';
 import 'package:e_commerce/models/product.dart';
+import 'package:e_commerce/screens/user/cart_screen.dart';
 import 'package:e_commerce/screens/user/product_info.dart';
 import 'package:e_commerce/services/auth.dart';
 import 'package:e_commerce/services/store.dart';
@@ -115,7 +116,11 @@ class _HomePageState extends State<HomePage> {
                     'Discover'.toUpperCase(),
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Icon(Icons.shopping_cart)
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, CartScreen.id);
+                      },
+                      child: Icon(Icons.shopping_cart))
                 ],
               ),
             ),
@@ -161,8 +166,10 @@ class _HomePageState extends State<HomePage> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: GestureDetector(
-                  onTap: (){
-                    Navigator.pushNamed(context, ProductInfo.id,arguments:products[index] );
+                  onTap: () {
+                    // arguments to know which product clicked
+                    Navigator.pushNamed(context, ProductInfo.id,
+                        arguments: products[index]);
                   },
                   child: Stack(
                     children: [
