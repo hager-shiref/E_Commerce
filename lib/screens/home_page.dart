@@ -2,8 +2,11 @@ import 'package:e_commerce/constant.dart';
 import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/services/auth.dart';
 import 'package:e_commerce/services/store.dart';
+import 'package:e_commerce/widgets/product_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../functions.dart';
 
 class HomePage extends StatefulWidget {
   static String id = 'HomePage';
@@ -17,6 +20,7 @@ class _HomePageState extends State<HomePage> {
     int _tabBarIndex=0;
     final _store=Store();
     int _bottomBarIndex=0;
+    List<Product>_products;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -86,9 +90,9 @@ class _HomePageState extends State<HomePage> {
               body:TabBarView(
                 children: [
                   jacketView(),
-                  Text('test'),
-                  Text('test'),
-                  Text('test'),
+                  productView(kTrousers,_products),
+                  productView(kShoes,_products),
+                  productView(kT_shirts,_products)
                 ],
               )
             )),
@@ -142,6 +146,10 @@ class _HomePageState extends State<HomePage> {
                   pName: data[kProductName],
                   pPrice: data[kProductPrice]));
             }
+            // list products from homePage is separated from others
+            _products=[...products];
+            _products.clear();
+            products=getproductByCatergory(kJackets,_products);
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, childAspectRatio: 0.8),
@@ -197,4 +205,5 @@ class _HomePageState extends State<HomePage> {
           }
         });
   }
+
 }
