@@ -145,8 +145,8 @@ class _ProductInfoState extends State<ProductInfo> {
                           primary: kMainColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20)))),
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10)))),
                     ),
                   ),
                 ),

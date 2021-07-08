@@ -1,5 +1,6 @@
 import 'package:e_commerce/constant.dart';
 import 'package:e_commerce/models/product.dart';
+import 'package:e_commerce/widgets/custom_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce/services/store.dart';
 
@@ -112,22 +113,3 @@ class _ManageProductState extends State<ManageProduct> {
   }
 }
 
-//override the PopUpMenuItem class
-class MyPopupMenuItem<T> extends PopupMenuItem<T> {
-  final Widget child;
-  final Function onClick;
-  MyPopupMenuItem({@required this.child, @required this.onClick})
-      : super(child: child);
-  @override
-  PopupMenuItemState<T, PopupMenuItem<T>> createState() {
-    return MyPopupMenuItemState();
-  }
-}
-
-class MyPopupMenuItemState<T, PopMenuItem>
-    extends PopupMenuItemState<T, MyPopupMenuItem<T>> {
-  @override
-  void handleTap() {
-    widget.onClick();
-  }
-}

@@ -8,7 +8,7 @@ import '../functions.dart';
 Widget productView(String pCategory, List<Product> allProducts) {
   List<Product> products;
   products = getProductByCatergory(pCategory, allProducts);
-  if(products !=null){
+  if(products.isNotEmpty){
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, childAspectRatio: 0.8),

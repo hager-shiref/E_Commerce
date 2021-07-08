@@ -1,6 +1,8 @@
 import 'package:e_commerce/constant.dart';
 import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/provider/cart_item.dart';
+import 'package:e_commerce/screens/user/product_info.dart';
+import 'package:e_commerce/widgets/custom_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,49 +33,60 @@ class CartScreen extends StatelessWidget {
               builder: (context,constrains){
                 if(products.isNotEmpty){
                   return Container(
-                    height: screenHeight-statusBarHeight-appBarHeight-(screenHeight*0.8),
+                    height: screenHeight-statusBarHeight-appBarHeight-(screenHeight*0.08),
                     child: ListView.builder(
                         itemBuilder: (context,index){
                           return Padding(
                               padding: EdgeInsets.all(15),
-                            child: Container(
-                              height: screenHeight*0.15,
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: screenHeight*0.15/2,
-                                    backgroundImage:AssetImage(products[index].pLocation) ,
-                                  ),
-                                  Expanded(child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
+                            child: GestureDetector(
+                              onTapUp: (details){
+                                showCustomMenu(details, context, products[index]);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: kMainColor,
+                                  borderRadius: BorderRadius.circular(20)
+                                ),
+                                height: screenHeight*0.15,
+                                child: Row(
+                                  children: [
                                     Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(products[index].pName,style: TextStyle(
-                                            fontSize: 18,fontWeight: FontWeight.bold
-                                          ),),
-                                          SizedBox(height: 10,),
-                                          Text('\$ ${products[index].pPrice}',style: TextStyle(
-                                            fontWeight: FontWeight.bold
-                                          ),)
-                                        ],
+                                      child: CircleAvatar(
+                                        radius: screenHeight*0.10/2,
+                                        backgroundImage:AssetImage(products[index].pLocation) ,
                                       ),
                                     ),
+                                    Expanded(child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(right: 20),
-                                        child: Text(
-                                          products[index].pQuantity.toString(),
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ), )
-                                  ],))
-                                ],
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(products[index].pName,style: TextStyle(
+                                              fontSize: 18,fontWeight: FontWeight.bold
+                                            ),),
+                                            SizedBox(height: 10,),
+                                            Text('\$ ${products[index].pPrice}',style: TextStyle(
+                                              fontWeight: FontWeight.bold
+                                            ),)
+                                          ],
+                                        ),
+                                      ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 20),
+                                          child: Text(
+                                            products[index].pQuantity.toString(),
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          ), )
+                                    ],))
+                                  ],
+                                ),
                               ),
-                              color: kSecondryColor,
                             ),
                           );
                         },
@@ -96,6 +109,7 @@ class CartScreen extends StatelessWidget {
             child: ElevatedButton(
               onPressed: (){},
               style: ElevatedButton.styleFrom(
+                primary: kMainColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(10),
@@ -110,5 +124,31 @@ class CartScreen extends StatelessWidget {
         ],
       ),
     );
+
+  }
+  void showCustomMenu(details,context,product)async{
+    double dx = details.globalPosition.dx;
+    double dy = details.globalPosition.dy;
+    double dx2 = MediaQuery.of(context).size.width - dx;
+    double dy2 = MediaQuery.of(context).size.width - dy;
+    await showMenu(context: context,
+        position:RelativeRect.fromLTRB(dx, dy, dx2, dy2),
+        items:[
+          MyPopupMenuItem(
+              child: Text('Edit'),
+              onClick: (){
+                //to hide popUpMenu
+                Navigator.pop(context);
+                //to Edit cartProduct
+                Provider.of<CartItem>(context,listen: false).deleteProduct(product);
+                Navigator.pushNamed(context, ProductInfo.id,arguments: product);
+              }),
+          MyPopupMenuItem(
+              child:Text('Delete') ,
+              onClick: (){
+                Navigator.pop(context);
+                Provider.of<CartItem>(context,listen: false).deleteProduct(product);
+              })
+        ]);
   }
 }
