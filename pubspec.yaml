@@ -33,6 +33,9 @@ flutter:
   assets:
     - assets/icons/
     - assets/jackets/
+    - assets/shoes/
+    - assets/t-shirts/
+    - assets/trousers/
   
   fonts:
     - family: Pacifico

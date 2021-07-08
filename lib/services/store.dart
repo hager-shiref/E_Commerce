@@ -14,7 +14,7 @@ class Store {
     });
   }
 
-  Stream<QuerySnapshot> loadProduct() {
+  Stream loadProduct() {
     return _firestore
         .collection(kProductsCollection)
         .snapshots(); //snapshots to update the data

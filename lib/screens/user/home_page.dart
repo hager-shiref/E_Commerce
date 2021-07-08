@@ -7,9 +7,7 @@ import 'package:e_commerce/services/store.dart';
 import 'package:e_commerce/widgets/product_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../../functions.dart';
-
+import 'package:e_commerce/functions.dart';
 class HomePage extends StatefulWidget {
   static String id = 'HomePage';
   @override
@@ -100,8 +98,8 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     jacketView(),
                     productView(kTrousers, _products),
+                    productView(kT_shirts, _products),
                     productView(kShoes, _products),
-                    productView(kT_shirts, _products)
                   ],
                 ))),
         Material(
@@ -157,7 +155,7 @@ class _HomePageState extends State<HomePage> {
             }
             // list products from homePage is separated from others
             _products = [...products];
-            _products.clear();
+            products.clear();
             products = getProductByCatergory(kJackets, _products);
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
