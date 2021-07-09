@@ -175,8 +175,21 @@ class _ProductInfoState extends State<ProductInfo> {
   void addToCart(context, product) {
     CartItem cartItem = Provider.of<CartItem>(context, listen: false);
     product.pQuantity = _quantity;
-    cartItem.addProduct(product);
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('Added to Cart')));
+   bool exist=false;
+   var productsInCart=cartItem.products;
+   for(var productInCart in productsInCart){
+     if(productInCart == product){
+       exist=true;
+     }
+   }
+   if(exist){
+     ScaffoldMessenger.of(context)
+         .showSnackBar(SnackBar(content: Text("you 've added this item before ")));
+   }
+   else{
+     cartItem.addProduct(product);
+     ScaffoldMessenger.of(context)
+         .showSnackBar(SnackBar(content: Text('Added to Cart')));
+   }
   }
 }

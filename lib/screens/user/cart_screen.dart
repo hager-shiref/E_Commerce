@@ -2,6 +2,7 @@ import 'package:e_commerce/constant.dart';
 import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/provider/cart_item.dart';
 import 'package:e_commerce/screens/user/product_info.dart';
+import 'package:e_commerce/services/store.dart';
 import 'package:e_commerce/widgets/custom_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,7 @@ class CartScreen extends StatelessWidget {
     final double appBarHeight=AppBar().preferredSize.height;
     final double statusBarHeight=MediaQuery.of(context).padding.top;
     return Scaffold(
+      resizeToAvoidBottomInset:false ,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -107,7 +109,9 @@ class CartScreen extends StatelessWidget {
             minWidth: screenWidth,
             height: screenHeight*0.08,
             child: ElevatedButton(
-              onPressed: (){},
+              onPressed: (){
+                showCustomDialog(products,context);
+              },
               style: ElevatedButton.styleFrom(
                 primary: kMainColor,
                 shape: RoundedRectangleBorder(
@@ -150,5 +154,53 @@ class CartScreen extends StatelessWidget {
                 Provider.of<CartItem>(context,listen: false).deleteProduct(product);
               })
         ]);
+  }
+
+  void showCustomDialog(List<Product>products,context)async{
+    var price=getTotalPrice(products);
+    var address;
+    AlertDialog alertDialog=AlertDialog(
+      actions: [
+        MaterialButton(
+          onPressed: (){
+            Store _store=Store();
+          try{
+            _store.storeOrders({
+              kTotalPrice:price,
+              kAddress:address
+            },products);
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('Order Successfully ')));
+            Navigator.pop(context);
+          }
+          catch (ex){
+            print(ex.message);
+          }
+          },
+          child: Text('Confirm'),
+        )
+      ],
+      title: Text('Total Price = \$ $price'),
+      content: TextField(
+        onChanged: (value){
+          address=value;
+        },
+        decoration: InputDecoration(
+          hintText: 'Enter Your Address'
+        ),
+      ),
+    );
+    showDialog(context: context, builder: (context){
+      return alertDialog;
+    });
+
+  }
+
+  getTotalPrice(List<Product> products) {
+    var price=0;
+    for(var product in products){
+      price+=product.pQuantity*int.parse(product.pPrice);
+    }
+    return price;
   }
 }

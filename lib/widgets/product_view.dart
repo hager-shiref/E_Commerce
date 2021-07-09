@@ -1,8 +1,6 @@
 import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/screens/user/product_info.dart';
 import 'package:flutter/material.dart';
-
-import '../constant.dart';
 import '../functions.dart';
 
 Widget productView(String pCategory, List<Product> allProducts) {
@@ -57,8 +55,8 @@ Widget productView(String pCategory, List<Product> allProducts) {
     );
   }
   else{
-    return CircularProgressIndicator(
-      backgroundColor: kMainColor,
+    return Center(
+      child: CircularProgressIndicator(),
     );
   }
 }
