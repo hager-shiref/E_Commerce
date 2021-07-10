@@ -1,4 +1,5 @@
 import 'package:e_commerce/constant.dart';
+import 'package:e_commerce/screens/admin/order_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'adminProduct.dart';
@@ -42,7 +43,9 @@ class AdminHome extends StatelessWidget {
             ),
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, OrderScreen.id);
+            },
             child: Text(
               'View Orders',
               style: TextStyle(color: Colors.black),

@@ -5,6 +5,8 @@ import 'package:e_commerce/screens/admin/adminProduct.dart';
 import 'package:e_commerce/screens/admin/admin_home.dart';
 import 'package:e_commerce/screens/admin/edit_product.dart';
 import 'package:e_commerce/screens/admin/mange_product.dart';
+import 'package:e_commerce/screens/admin/order_details.dart';
+import 'package:e_commerce/screens/admin/order_screen.dart';
 import 'package:e_commerce/screens/login_screen.dart';
 import 'package:e_commerce/screens/user/cart_screen.dart';
 import 'package:e_commerce/screens/user/product_info.dart';
@@ -47,7 +49,9 @@ class MyApp extends StatelessWidget {
           ManageProduct.id: (context) => ManageProduct(),
           EditProduct.id: (context) => EditProduct(),
           ProductInfo.id: (context) => ProductInfo(),
-          CartScreen.id: (context) => CartScreen()
+          CartScreen.id: (context) => CartScreen(),
+          OrderScreen.id:(context)=>OrderScreen(),
+          OrderDetails.id:(context)=>OrderDetails()
         },
       ),
     );

@@ -8,6 +8,7 @@ import 'package:e_commerce/widgets/product_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce/functions.dart';
+
 class HomePage extends StatefulWidget {
   static String id = 'HomePage';
   @override

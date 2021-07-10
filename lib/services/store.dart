@@ -23,19 +23,29 @@ class Store {
   deleteProduct(documentId) {
     _firestore.collection(kProductsCollection).doc(documentId).delete();
   }
-  editProduct(data,documentId){
+
+  editProduct(data, documentId) {
     _firestore.collection(kProductsCollection).doc(documentId).update(data);
   }
-  storeOrders(data,List<Product>products){
-    var documentRef= _firestore.collection(kOrders).doc();
+
+  storeOrders(data, List<Product> products) {
+    var documentRef = _firestore.collection(kOrders).doc();
     documentRef.set(data);
-    for(var product in products){
+    for (var product in products) {
       documentRef.collection(kOrderDetails).doc().set({
-        kProductName:product.pName,
-        kProductLocation:product.pLocation,
-        kProductQuantity:product.pQuantity,
-        kProductPrice:product.pPrice
+        kProductName: product.pName,
+        kProductLocation: product.pLocation,
+        kProductQuantity: product.pQuantity,
+        kProductPrice: product.pPrice,
+        kProductCategory:product.pCatergory
       });
     }
+  }
+
+  Stream loadOrders() {
+    return _firestore.collection(kOrders).snapshots();
+  }
+  Stream loadOrdersDetails(documentId){
+        _firestore.collection(kOrders).doc(documentId).collection(kOrderDetails).snapshots();
   }
 }

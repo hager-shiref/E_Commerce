@@ -6,23 +6,24 @@ import '../functions.dart';
 Widget productView(String pCategory, List<Product> allProducts) {
   List<Product> products;
   products = getProductByCatergory(pCategory, allProducts);
-  if(products.isNotEmpty){
+  if (products.isNotEmpty) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, childAspectRatio: 0.8),
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: GestureDetector(
-          onTap: (){
-            Navigator.pushNamed(context, ProductInfo.id,arguments: products[index]);
+          onTap: () {
+            Navigator.pushNamed(context, ProductInfo.id,
+                arguments: products[index]);
           },
           child: Stack(
             children: [
               Positioned.fill(
                   child: Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage(products[index].pLocation),
-                  )),
+                fit: BoxFit.fill,
+                image: AssetImage(products[index].pLocation),
+              )),
               Positioned(
                 bottom: 0,
                 width: MediaQuery.of(context).size.width,
@@ -32,7 +33,8 @@ Widget productView(String pCategory, List<Product> allProducts) {
                     height: 60,
                     color: Colors.white,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -53,8 +55,7 @@ Widget productView(String pCategory, List<Product> allProducts) {
       ),
       itemCount: products.length,
     );
-  }
-  else{
+  } else {
     return Center(
       child: CircularProgressIndicator(),
     );
