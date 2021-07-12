@@ -1,5 +1,6 @@
 import 'package:e_commerce/constant.dart';
 import 'package:e_commerce/models/product.dart';
+import 'package:e_commerce/screens/login_screen.dart';
 import 'package:e_commerce/screens/user/cart_screen.dart';
 import 'package:e_commerce/screens/user/product_info.dart';
 import 'package:e_commerce/services/auth.dart';
@@ -8,6 +9,7 @@ import 'package:e_commerce/widgets/product_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce/functions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   static String id = 'HomePage';
@@ -33,20 +35,25 @@ class _HomePageState extends State<HomePage> {
                   type: BottomNavigationBarType.fixed,
                   currentIndex: _bottomBarIndex,
                   fixedColor: kMainColor,
-                  onTap: (value) {
+                  onTap: (value) async{
+                    if(value==2){
+                      SharedPreferences pref=await SharedPreferences.getInstance();
+                      pref.clear();
+                     await _auth.signOut();
+                     Navigator.popAndPushNamed(context,LoginScreen.id);
+                    }
                     setState(() {
                       _bottomBarIndex = value;
                     });
                   },
                   items: [
+
                     BottomNavigationBarItem(
                         label: 'test', icon: Icon(Icons.person)),
                     BottomNavigationBarItem(
                         label: 'test', icon: Icon(Icons.person)),
                     BottomNavigationBarItem(
-                        label: 'test', icon: Icon(Icons.person)),
-                    BottomNavigationBarItem(
-                        label: 'test', icon: Icon(Icons.person))
+                        label: 'Sign Out', icon: Icon(Icons.close))
                   ],
                 ),
                 appBar: AppBar(

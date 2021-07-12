@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Auth {
@@ -16,5 +18,8 @@ class Auth {
 
   Future <User> getUser()async{
     return await _auth.currentUser;
+  }
+  Future <Void> signOut()async{
+       await _auth.signOut();
   }
 }

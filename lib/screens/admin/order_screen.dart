@@ -13,55 +13,56 @@ class OrderScreen extends StatelessWidget {
       body: StreamBuilder(
         stream: _store.loadOrders(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-              child: Text('there is no orders'),
-            );
-          } else {
+          if (snapshot.hasData) {
             List<Order> orders = [];
-            for (var doc in snapshot.data.doc) {
+            for (var doc in snapshot.data.docs) {
+              var data = doc.data();
               orders.add(Order(
                   documentId: doc.id,
-                  totalPrice: doc.data[kTotalPrice],
-                  address: doc.data[kAddress]));
+                  totalPrice: data[kTotalPrice],
+                  address: data[kAddress]));
             }
             return ListView.builder(
-                itemCount: orders.length,
-                itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, OrderDetails.id,
-                              arguments: orders[index].documentId);
-                        },
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          color: kSecondryColor,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Total Price =${orders[index].totalPrice}',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  'Address is ${orders[index].address}',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, OrderDetails.id,
+                        arguments: orders[index].documentId);
+                  },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width - 100,
+                    color: kMainColor,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Total Price = ${orders[index].totalPrice}',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold)),
+                          SizedBox(
+                            height: 10,
                           ),
-                        ),
+                          Text(
+                            'Address is ${orders[index].address}',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          )
+                        ],
                       ),
-                    ));
+                    ),
+                  ),
+                ),
+              ),
+              itemCount: orders.length,
+            );
+          } else {
+            return Center(
+              child: Text('There is No orders'),
+            );
           }
         },
       ),

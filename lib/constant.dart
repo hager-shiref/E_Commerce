@@ -13,9 +13,10 @@ const kJackets = 'jackets';
 const kTrousers = 'trousers';
 const kT_shirts = 't-shirts';
 const kShoes = 'shoes';
-const kOrders='Orders ';
+const kOrders='Orders';
 const kOrderDetails='OrderDetails';
 const kTotalPrice='TotalPrice';
 const kAddress='Address';
 const kProductQuantity='Quantity';
+const kKeepMeLoggedIn='KeepMeLoggedIn';
 
